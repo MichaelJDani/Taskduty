@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+
+body {
+  font-family: "Signika Negative", sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #F9FAFB;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+::view-transition-old(root) {
+  animation: fade-out 300ms ease-in forwards;
+}
+::view-transition-new(root) {
+  animation: fade-in 500ms ease-in forwards;
+}
+
+@theme {
+  --color-dark-purple: #2d0050;
+  --color-light-grey: #7E7C7C;
+  --color-custom-hover: #974FD0;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+a,
+button,
+.btn {
+  transition: all 150ms ease;
+}
+
+a:hover,
+button:hover,
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
