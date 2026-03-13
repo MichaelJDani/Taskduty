@@ -6,10 +6,14 @@ import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 
+if (!process.env.MONGO_URI) {
+  console.error("❌ Missing MONGO_URI. Ensure server/.env exists and is loaded.");
+  process.exit(1);
+}
+
 const app = express();
 
-
-connectDB();  
+connectDB();
 
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
