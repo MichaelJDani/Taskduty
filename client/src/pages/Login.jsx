@@ -16,7 +16,8 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -27,11 +28,13 @@ export default function Login() {
       if (!res.ok) {
         toast.error(data.message || "Login failed");
         return;
-      } else {
-        toast.success("Login successful!");
-        localStorage.setItem("token", data.token);
-        navigate("/", {replace: true}); 
       }
+
+      
+      localStorage.setItem("token", data.token);
+
+      toast.success("Login successful!");
+      navigate("/", { replace: true });
 
     } catch (err) {
       console.error("Login error:", err);

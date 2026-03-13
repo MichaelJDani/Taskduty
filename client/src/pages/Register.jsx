@@ -17,7 +17,8 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),
@@ -27,13 +28,14 @@ export default function Register() {
 
       if (!res.ok) {
         toast.error(data.message || "Registration failed");
-      } else {
-        toast.success("Registration successful!");
-        navigate("/login");
+        return;
       }
 
+      toast.success("Registration successful!");
+      navigate("/login", { replace: true });
+
     } catch (err) {
-      console.error("Fetch error:", err);
+      console.error("Registration error:", err);
       toast.error("Something went wrong. Try again!");
     } finally {
       setLoading(false);
@@ -84,7 +86,7 @@ export default function Register() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-4 transition transform  text-gray-500"
+            className="absolute right-3 top-4 text-gray-500"
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
