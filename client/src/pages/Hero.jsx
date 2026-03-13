@@ -5,6 +5,7 @@ export default function Hero() {
 
   return (
     <main className="bg-gray-50 py-8 px-6 md:px-20 mt-10 overflow-hidden">
+      
       <div className="container mx-auto grid md:grid-cols-2 items-center gap-10 md:gap-15 py-10 md:py-20">
         
         <div className="flex flex-col gap-6 text-center md:text-left">
