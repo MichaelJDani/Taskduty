@@ -18,7 +18,7 @@ app.use(cors({
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Taskduty API running 🚀");
+  res.send("Taskduty API running now 🚀");
 });
 
 app.use("/api/auth", authRoutes);
