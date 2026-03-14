@@ -13,13 +13,12 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    
+   
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       return res.status(400).json({ message: "Username already taken" });
     }
 
-    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     
@@ -29,7 +28,6 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -49,18 +47,26 @@ export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
+  
     const user = await User.findOne({ username });
+
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      
+      return res.status(400).json({
+        message: "User not found. Please register first to create an account.",
+        action: "register" 
+      });
     }
 
     
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({
+        message: "Incorrect password. Please check your password and try again."
+      });
     }
 
-   
+  
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
