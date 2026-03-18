@@ -2,33 +2,30 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiArrowLeft } from "react-icons/hi";
 
-export default function NewTask() {
+export default function NewNote() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("Important");
+  const [content, setContent] = useState("");
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await fetch("https://taskduty-server.vercel.app/api/tasks", {
+      await fetch("https://taskduty-server.vercel.app/api/notes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           title,
-          description,
-          priority,
+          content,
         }),
       });
 
-      navigate("/tasks");
+      navigate("/notes");
     } catch (error) {
-      console.error("Error creating task:", error);
+      console.error("Error creating note:", error);
     }
   };
 
@@ -38,20 +35,22 @@ export default function NewTask() {
 
   return (
     <main className="bg-gray-50 py-8 px-6 md:px-20 mt-18 md:mt-28">
+    
       <div className="flex items-center gap-2 mb-6">
         <div className="group inline-block">
           <HiArrowLeft
             className="text-2xl cursor-pointer group-hover:-translate-x-2 transition"
-            onClick={() => navigate("/tasks")}
+            onClick={() => navigate("/notes")}
           />
         </div>
-        <h1 className="text-3xl font-semibold text-black">New Task</h1>
+        <h1 className="text-3xl font-semibold text-black">New Note</h1>
       </div>
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
-          placeholder="Task Title"
+          placeholder="Note Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
@@ -59,43 +58,32 @@ export default function NewTask() {
         />
 
         <textarea
-          placeholder="Task Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring resize-none"
+          placeholder="Write your note..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           rows={6}
+          className="p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-purple-600"
           required
         />
-
-        <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-          className="p-3 border border-gray-300 rounded-lg cursor-pointer"
-        >
-          <option value="" disabled>
-            Select Priority
-          </option>
-          <option value="Urgent">Urgent</option>
-          <option value="Important">Important</option>
-        </select>
 
         <div className="flex flex-col gap-4 mt-4 md:flex-row">
           <button
             type="submit"
             className="bg-custom-hover text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700 transition"
           >
-            Add Task
+            Add Note
           </button>
 
           <button
             type="button"
-            onClick={() => navigate("/tasks")}
+            onClick={() => navigate("/notes")}
             className="border border-gray-300 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition"
           >
             Cancel
           </button>
         </div>
 
+        
         <div className="text-center mt-10">
           <button
             type="button"

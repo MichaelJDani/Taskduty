@@ -3,10 +3,13 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
+import noteRoutes from "./routes/notes.js";
+import taskRoutes from "./routes/tasks.js";
 
 dotenv.config();
 
 const app = express();
+const noteRoutes = require("./routes/noteRoutes");
 
 connectDB();
 
@@ -20,6 +23,12 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Taskduty API running now 🚀");
 });
+
+
+
+app.use("/api/tasks", taskRoutes);
+
+app.use("/api/notes", noteRoutes)
 
 app.use("/api/auth", authRoutes);
 
