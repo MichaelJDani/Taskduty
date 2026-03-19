@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 
 export default function Notes() {
-
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const fetchNotes = async () => {
-    const res = await fetch("http://localhost:5000/api/notes");
-    const data = await res.json();
-    setNotes(data);
+    try {
+      const res = await fetch("https://taskduty-server.vercel.app/api/notes");
+      const data = await res.json();
+      setNotes(data);
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    }
   };
 
   useEffect(() => {
@@ -17,25 +20,32 @@ export default function Notes() {
   }, []);
 
   const addNote = async () => {
-    await fetch("http://localhost:5000/api/notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ title, content })
-    });
+    try {
+      await fetch("http://localhost:5000/api/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, content }),
+      });
 
-    setTitle("");
-    setContent("");
-    fetchNotes();
+      setTitle("");
+      setContent("");
+      fetchNotes();
+    } catch (error) {
+      console.error("Error adding note:", error);
+    }
   };
 
   const deleteNote = async (id) => {
-    await fetch(`http://localhost:5000/api/notes/${id}`, {
-      method: "DELETE"
-    });
-
-    fetchNotes();
+    try {
+      await fetch(`http://localhost:5000/api/notes/${id}`, {
+        method: "DELETE",
+      });
+      fetchNotes();
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
   };
 
   return (
@@ -56,18 +66,17 @@ export default function Notes() {
 
       <button onClick={addNote}>Add Note</button>
 
-      {notes.map(note => (
-        <div key={note._id}>
-          <h3>{note.title}</h3>
-          <p>{note.content}</p>
-
-          <button onClick={() => deleteNote(note._id)}>
-            Delete
-          </button>
-        </div>
-      ))}
+      {notes.length === 0 ? (
+        <p>No note yet</p>
+      ) : (
+        notes.map((note) => (
+          <div key={note._id}>
+            <h3>{note.title}</h3>
+            <p>{note.content}</p>
+            <button onClick={() => deleteNote(note._id)}>Delete</button>
+          </div>
+        ))
+      )}
     </div>
   );
 }
-
-// ok
