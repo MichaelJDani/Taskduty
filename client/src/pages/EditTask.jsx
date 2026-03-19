@@ -12,17 +12,32 @@ export default function EditTask() {
     priority: "Important",
   });
 
-  
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+
+
   useEffect(() => {
     const fetchTask = async () => {
       try {
         const res = await fetch(
           `https://taskduty-server.vercel.app/api/tasks/${id}`
         );
+
+        if (!res.ok) throw new Error("Failed to fetch task");
+
         const data = await res.json();
-        setTask(data);
+
+       
+        setTask({
+          title: data.title || "",
+          description: data.description || "",
+          priority: data.priority || "Important",
+        });
+
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching task:", error);
+        setLoading(false);
       }
     };
 
@@ -44,7 +59,7 @@ export default function EditTask() {
     e.preventDefault();
 
     try {
-      await fetch(
+      const res = await fetch(
         `https://taskduty-server.vercel.app/api/tasks/${id}`,
         {
           method: "PUT",
@@ -55,9 +70,16 @@ export default function EditTask() {
         }
       );
 
-      navigate("/tasks");
+      if (!res.ok) throw new Error("Update failed");
+
+      setMessage("✅ Task updated successfully!");
+
+      setTimeout(() => {
+        navigate("/tasks");
+      }, 1000);
     } catch (error) {
       console.error("Error updating task:", error);
+      setMessage("❌ Failed to update task");
     }
   };
 
@@ -65,8 +87,19 @@ export default function EditTask() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+ 
+  if (loading) {
+    return (
+      <p className="text-center mt-20 text-gray-600">
+        Loading task...
+      </p>
+    );
+  }
+
   return (
     <main className="bg-gray-50 py-8 px-6 md:px-20 mt-18 md:mt-28">
+      
+    
       <div className="flex items-center gap-2 mb-6">
         <div className="group inline-block">
           <HiArrowLeft
@@ -77,8 +110,16 @@ export default function EditTask() {
         <h1 className="text-3xl font-semibold text-black">Edit Task</h1>
       </div>
 
+     
+      {message && (
+        <p className="mb-4 text-center font-medium text-green-600">
+          {message}
+        </p>
+      )}
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-7">
-        {/* TITLE */}
+
+       
         <div className="relative">
           <label className="absolute -top-3 left-4 bg-white px-2 text-gray-500 text-sm">
             Task Title
@@ -93,7 +134,6 @@ export default function EditTask() {
           />
         </div>
 
-       
         <div className="relative">
           <label className="absolute -top-3 left-4 bg-white px-2 text-gray-500 text-sm">
             Description
@@ -124,7 +164,7 @@ export default function EditTask() {
           </select>
         </div>
 
-        {/* BUTTONS */}
+      
         <div className="flex gap-4 mt-4">
           <button
             type="submit"
@@ -142,7 +182,6 @@ export default function EditTask() {
           </button>
         </div>
 
-       
         <div className="text-center mt-10">
           <button
             type="button"

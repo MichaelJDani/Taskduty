@@ -20,6 +20,8 @@ export default function Tasks() {
   };
 
   const deleteTask = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this task");
+    if(!confirmDelete) return;
     try {
       await fetch(`https://taskduty-server.vercel.app/api/tasks/${id}`, {
         method: "DELETE",
@@ -85,14 +87,14 @@ export default function Tasks() {
 
                 <div className="flex gap-3">
                   <Link to={`/tasks/${task._id}/edit`}>
-                    <button className="bg-custom-hover text-white px-4 py-2 rounded-lg font-medium hover:bg-violet-700 transition">
+                    <button className="bg-custom-hover cursor-pointer text-white px-4 py-2 rounded-lg font-medium hover:bg-violet-700 transition">
                       <FontAwesomeIcon icon={faEdit} /> Edit
                     </button>
                   </Link>
 
                   <button
                     onClick={() => deleteTask(task._id)}
-                    className="border border-custom-hover text-custom-hover px-4 py-2 rounded-lg font-medium hover:bg-violet-50 transition flex items-center gap-1 justify-center bg-transparent"
+                    className="border border-custom-hover cursor-pointer text-custom-hover px-4 py-2 rounded-lg font-medium hover:bg-violet-50 transition flex items-center gap-1 justify-center bg-transparent"
                   >
                     <FontAwesomeIcon icon={faTrashCan} /> Delete
                   </button>
