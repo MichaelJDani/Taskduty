@@ -3,13 +3,13 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
-import noteRoutes from "./routes/notes.js";
+import noteRoutes from "./routes/noteRoutes.js";
 import taskRoutes from "./routes/tasks.js";
 
 dotenv.config();
 
 const app = express();
-const noteRoutes = require("./routes/noteRoutes");
+
 
 connectDB();
 
