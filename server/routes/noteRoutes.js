@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// READ ALL
+
 router.get("/", async (req, res) => {
   try {
     const notes = await Note.find().sort({ createdAt: -1 });
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// READ ONE
+
 router.get("/:id", async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
@@ -33,7 +33,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// UPDATE
+
 router.put("/:id", async (req, res) => {
   try {
     const updated = await Note.findByIdAndUpdate(
