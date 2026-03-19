@@ -7,11 +7,10 @@ export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
 
- 
   const fetchTasks = async (searchValue = "") => {
     try {
       const res = await fetch(
-        `https://taskduty-server.vercel.app/api/tasks?search=${searchValue}`
+        `https://taskduty-server.vercel.app/api/tasks?search=${searchValue}`,
       );
       const data = await res.json();
       setTasks(data);
@@ -20,15 +19,11 @@ export default function Tasks() {
     }
   };
 
-  
   const deleteTask = async (id) => {
     try {
-      await fetch(
-        `https://taskduty-server.vercel.app/api/tasks/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      await fetch(`https://taskduty-server.vercel.app/api/tasks/${id}`, {
+        method: "DELETE",
+      });
 
       fetchTasks(search);
     } catch (error) {
@@ -47,8 +42,6 @@ export default function Tasks() {
   return (
     <main className="bg-gray-50 py-8 px-6 md:px-20 mt-10">
       <div className="container mx-auto py-10 md:py-20">
-        
-       
         <div className="mb-6">
           <input
             type="text"
@@ -62,7 +55,6 @@ export default function Tasks() {
           />
         </div>
 
-       
         <div className="flex justify-between items-center mb-5">
           <h1 className="text-4xl font-semibold text-black">My Tasks</h1>
 
@@ -74,11 +66,10 @@ export default function Tasks() {
           </Link>
         </div>
 
-      
         <div className="space-y-8">
           {tasks.map((task) => (
             <div
-              key={task._id} 
+              key={task._id}
               className="border border-dark-purple rounded-xl p-8 hover:shadow-lg transition duration-200"
             >
               <div className="flex justify-between items-center mb-3 border-b border-dark-purple pb-3">
@@ -108,9 +99,7 @@ export default function Tasks() {
                 </div>
               </div>
 
-              <h2 className="text-2xl font-semibold mb-3">
-                {task.title}
-              </h2>
+              <h2 className="text-2xl font-semibold mb-3">{task.title}</h2>
 
               <p className="text-gray-600 text-lg leading-relaxed">
                 {task.description}
@@ -118,8 +107,6 @@ export default function Tasks() {
             </div>
           ))}
         </div>
-
-       
         <div className="text-center mt-10">
           <button
             onClick={scrollToTop}
