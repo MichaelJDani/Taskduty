@@ -5,17 +5,21 @@ const router = express.Router();
 
 
 router.post("/", async (req, res) => {
-  const task = new Task(req.body);
-  await task.save();
-  res.json(task);
+  try {
+    const task = new Task(req.body);
+    await task.save();
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to create task" });
+  }
 });
-router.get("/tasks", async (req, res) => {
+
+router.get("/", async (req, res) => {
   try {
     const { search } = req.query;
 
     let query = {};
 
-    
     if (search) {
       query = {
         $or: [
@@ -26,7 +30,6 @@ router.get("/tasks", async (req, res) => {
     }
 
     const tasks = await Task.find(query);
-
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
