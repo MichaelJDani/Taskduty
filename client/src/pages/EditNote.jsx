@@ -12,7 +12,7 @@ export default function EditNote() {
 
   const BASE_URL = "https://taskduty-server.vercel.app/api/notes";
 
-  // ✅ FETCH EXISTING NOTE
+ 
   useEffect(() => {
     const fetchNote = async () => {
       try {
@@ -31,13 +31,13 @@ export default function EditNote() {
     fetchNote();
   }, [id]);
 
-  // ✅ UPDATE NOTE
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       await fetch(`${BASE_URL}/${id}`, {
-        method: "PUT", // 🔥 THIS is what makes it EDIT
+        method: "PUT", 
         headers: {
           "Content-Type": "application/json",
         },
@@ -71,7 +71,7 @@ export default function EditNote() {
         <h1 className="text-3xl font-semibold text-black">Edit Note</h1>
       </div>
 
-      {/* FORM */}
+    
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
