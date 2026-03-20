@@ -44,7 +44,7 @@ export default function Notes() {
     }
   };
 
-  // ✅ DELETE NOTE
+  
   const deleteNote = async (id) => {
     try {
       await fetch(`${BASE_URL}/${id}`, {
@@ -58,7 +58,7 @@ export default function Notes() {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
+    <div className="p-6 max-w-2xl mx-auto mt-30">
       <h2 className="text-2xl font-bold mb-4">Notes</h2>
 
       
@@ -78,7 +78,7 @@ export default function Notes() {
 
       <button
         onClick={addNote}
-        className="bg-purple-600 cursor-pointer text-white px-4 py-2 rounded mb-4 hover:bg-purple-700"
+        className="bg-custom-hover cursor-pointer text-white px-4 py-2 rounded mb-4 hover:bg-purple-700"
       >
         Add Note
       </button>

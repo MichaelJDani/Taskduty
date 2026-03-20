@@ -42,6 +42,11 @@ export default function Navbar({ showAllTasks = true }) {
                 </li>
               )}
               <li>
+                  <Link to="/notes" className="hover:text-custom-hover">
+                    Notes
+                  </Link>
+                </li>
+              <li>
                 <img
                   src="/image.png"
                   alt="profile"
