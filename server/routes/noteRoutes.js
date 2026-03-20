@@ -3,7 +3,7 @@ import Note from "../models/notes.js";
 
 const router = express.Router();
 
-// CREATE
+
 router.post("/", async (req, res) => {
   try {
     const note = await Note.create(req.body);
