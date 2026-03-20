@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const BASE_URL = "https://taskduty-server.vercel.app/api/notes";
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
-  
   const fetchNotes = async () => {
     try {
       const res = await fetch(BASE_URL);
@@ -23,34 +22,11 @@ export default function Notes() {
     fetchNotes();
   }, []);
 
-  
-  const addNote = async () => {
-    if (!title || !content) return;
-
-    try {
-      await fetch(BASE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, content }),
-      });
-
-      setTitle("");
-      setContent("");
-      fetchNotes();
-    } catch (error) {
-      console.error("Error adding note:", error);
-    }
-  };
-
-  
   const deleteNote = async (id) => {
     try {
       await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
       });
-
       fetchNotes();
     } catch (error) {
       console.error("Error deleting note:", error);
@@ -61,29 +37,13 @@ export default function Notes() {
     <div className="p-6 max-w-2xl mx-auto mt-30">
       <h2 className="text-2xl font-bold mb-4">Notes</h2>
 
-      
-      <input
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="border p-2 w-full mb-2 rounded"
-      />
+      {/* ✅ FIXED BUTTON */}
+      <Link to="/notes/new">
+        <button className="bg-custom-hover cursor-pointer text-white px-4 py-2 rounded mb-4 hover:bg-purple-700">
+          + Add Note
+        </button>
+      </Link>
 
-      <textarea
-        placeholder="Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="border p-2 w-full mb-2 rounded"
-      />
-
-      <button
-        onClick={addNote}
-        className="bg-custom-hover cursor-pointer text-white px-4 py-2 rounded mb-4 hover:bg-purple-700"
-      >
-        Add Note
-      </button>
-
-     
       {notes.length === 0 ? (
         <p className="text-gray-500">No note yet</p>
       ) : (
@@ -95,18 +55,17 @@ export default function Notes() {
             <h3 className="font-semibold">{note.title}</h3>
             <p className="text-gray-600">{note.content}</p>
 
-           
             <div className="flex gap-3 mt-2">
               <Link to={`/notes/${note._id}/edit`}>
-                <button className="text-blue-500 cursor-pointer">
-                  Edit
+                <button className="text-white bg-custom-hover  px-4 py-2 rounded-lg border cursor-pointer transition flex items-center gap-1 justify-center">
+                   <FontAwesomeIcon icon={faEdit} /> Edit
                 </button>
               </Link>
 
               <button
                 onClick={() => deleteNote(note._id)}
-                className="text-red-500 cursor-pointer"
-              >
+                className="border border-custom-hover cursor-pointer text-custom-hover px-4 py-2 rounded-lg font-medium hover:bg-violet-50 transition flex items-center gap-1 justify-center bg-transparent"
+              ><FontAwesomeIcon icon={faTrashCan} />
                 Delete
               </button>
             </div>

@@ -133,7 +133,13 @@ export default function Navbar({ showAllTasks = true }) {
                     All Tasks
                   </Link>
                 </li>
+                
               )}
+              <li>
+                  <Link to="/notes" className="hover:text-custom-hover">
+                    Notes
+                  </Link>
+                </li>
               <li>
                 <button
                   onClick={() => {
