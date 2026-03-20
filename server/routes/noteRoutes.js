@@ -47,7 +47,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE
+
 router.delete("/:id", async (req, res) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
